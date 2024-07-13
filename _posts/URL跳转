@@ -1,0 +1,100 @@
+### URL跳转漏洞
+1. META标签内跳转
+2. Javascript跳转
+3. Header头跳转
+
+> 1已有例
+
+> 2javascript
+
+> 3Header已有例
+
+`<script type="text/javascript" >
+function getQueryString(name) {var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i);var r=window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]); return null;
+var site = getQueryString("site");
+window.location.href=site;
+</script>`
+
+### URL跳转漏洞产生的原因:
+1. 没有考虑过任意URL跳转漏洞，或者根本不知道/不认为这是个漏洞;
+2. 考虑不周,用取子串、取后缀等方法简单判断，代码逻辑可被绕过:
+3. 对传入参数做一些奇葩的操作(域名剪切/拼接/重组)和判断，适得其反，反被绕过;
+4. 原始语言自带的解析URL、判断域名的函数库出现逻辑漏洞或者意外特性,可被绕过;
+5. 原始语言、服务器/容器特性、浏览器等对标准URL协议解析处理等差异性导致被绕过;
+
+### 漏洞通常发生在以下几个地方:
+- 用户登录、统一身份认证处，认证完后会跳转
+- 用户分享、收藏内容过后，会跳转
+- 跨站点认证、授权后，会跳转
+- 站内点击其它网址链接时，会跳转
+
+### 常见参数
+- redirect
+- redirect to
+- redirect url
+- url
+- jump
+- jump_to
+- goto
+- result
+- target
+- t0
+- link
+- linkto
+- domain
+- service
+
+### URL跳转常规绕过:
+####  检测域名结尾是不是包含当前域名，是的话才会跳转:
+- 绕过方式一:`https://www.landgrey.me/redirect.php?url=http://www.evil.com/www.landgrey.me`
+- 绕过方式二:买个xxxlandgrey.me域名`https://www.landgrey.me/redirect.php?url=hftpxxxlandgrey.me`
+- 白名单检测域名是否为子城名:绕过思路:去找子城里的URL跳转漏洞，进行二次跳转。
+`https://www,landgrey,me/redirect.php?url=https://auth.landgrey.me/jump.do?url=evil.con`
+
+### URL跳转漏洞畸形绕过:
+由于各种语言、框架和代码实现的不同，防护任意跳转代码的多种多样;导致绕过方式乍看起来很诡异，有多诡异
+- 案例一:多余/绕过:通过添加多余的"!"(%2F)符号，再对"."ur|编码成"%2E"绕过代码中对域名后".com"的切割，构造类似https://landgrey.me/%2Fevil%2Ecom达到了任意URL跳转的目的。
+- 案例二:通过添加4个"/"前缀和"!.."后缀，构造类似https://landgrey.me/redirect.php?url=////www.evil.com/.. 进行了绕过
+- 案例三:通过""字符，构造类似https://landgrey.me/redirect.php?url=http://www.evil.coml.landgrey.me
+#### 进行绕过手工测试时，主要结合目标对输入的跳转处理和提示，根据经验来绕过;自动化测试时，通常是根据目标和规则,事先生成pavload，用工具(如burpsuite)在洞点处自动发包测试，URL跳转漏洞复杂的真实例子也比较难找。黑盒测试，经常是测试成功也不能确定到底是哪里出的问题。要达到绕过效果，主要涉及以下9个特殊字符:
+`";“ “/”,“\“,“?”,“·“,“@”,"=","&”,""`
+
+
+### 漏洞修复方案绕过:
+- 第一种:
+验证缺失(仅验证包含wwW.yoursi域名)
+`thttp://evil.comwww.yoursite.com/`
+`http://evil.com/?www.yoursite.com`
+`http://evil.com/www.yoursite.com/`
+- 第二种:
+利用schema://username:password@host.com/的验证缺失`http://evil.com@www.yoursite.com`此处evil.com\@被当作了username:password的内容来处理，导致验证缺失。
+- 第三种:%40绕过域名检测
+`http://sevsea.me/tjump?u=//www.yoursite.com%40evil.com/5ulGe4g&BNVDLCSEK`
+- 第四种:
+业务判断了/字符并做了限制，使用""或?绕过
+使用 `http://evil.com?www.yoursite.com/`时候浏览器会自动解析为 `http://evil.com/?www.yoursite.com/`.
+绕过了对/字符的限制。
+
+
+### 10种常用的bypass方案:
+- 单斜线""绕过`https://www.landgrey.me/redirect.php?url=/www.evil.com`
+- 缺少协议绕过`https://www.landgrey.me/redirect.php?url=//www.evil.com`
+- 多斜线"/"前缀绕过
+`https://www.landgrey.me/redirect,php?url=///www,evil.comhttps://www.landgrey:me/redirect.php?url=//www.evil.com`
+- 利用"@"符号绕过`https://www,.landgrey.me/redirect.php?url=https://www.landgrey.me@www.evil.com`
+- 利用反斜线"""绕过`htps://www.landgrey.me/redirect.php?url=https://www.evil.comlwww.landgrey.me`
+- 利用"#"符号绕过`https://www.andgrey.me/redirect.php?url=https://www.evil.com#www.landgrey.me`
+- 利用"?"号绕过
+`https://www,landgrey.me/redirect.php?url=https://www.evil.com?www.landgrey.me`
+- 利用"\\\\"绕过
+`https://www.landgrey.me/redirect.php?url=https://www.evil.comllwww.landgrey.me`
+- 利用""绕过`https://www.landgrey.me/redirect.php?url=,evil(可能会跳转到www.landgrey:me.evil域名)https://www.landgrey.me/redirect.php?url=.evil.com(可能会跳转到evil.com域名)`
+- 重复特殊字符绕过
+`https://www.landgrey.me/redirect.php?url=///www.evil.com/..https:/www.landgrey.me/redirect.php?url=///www.evil.com//`
+
+
+### 其他绕过思路:
+- 跳转到IP地址，而不是域名;
+- 跳转到IPV6地址，而不是IPV4地址;
+- 将要跳转到的IP地址用10进制、8进制、16进制形式表示;
+- 更换协议,使用ftp、gopher协议等,
