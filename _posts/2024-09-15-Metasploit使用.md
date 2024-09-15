@@ -1,3 +1,18 @@
+---
+layout:     post
+title:     MSF使用
+subtitle:   教程
+date:       2024-09-15
+author:     白泽
+header-img: img/post-bg-ios9-web.jpg
+catalog: true
+tags:
+    - kali
+    - 终端
+    - 命令
+---
+
+
 # Metasploit使用
 
 简称msf
