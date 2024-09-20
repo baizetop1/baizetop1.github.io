@@ -4,7 +4,7 @@ title:     MSF使用
 subtitle:   教程
 date:       2024-09-15
 author:     白泽
-header-img: img/post-bg-ios9-web.jpg
+header-img: img/post-bg-2024 light.jpg
 catalog: true
 tags:
     - kali
