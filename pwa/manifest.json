@@ -1,7 +1,7 @@
 {
-  "name": "BY Blog",
-  "short_name": "BY Blog",
-  "description": "A personal blog by engineer",
+  "name": "BZ 安全手记",
+  "short_name": "BZ 手记",
+  "description": "网络安全、系统工具与真实排障记录",
   "icons": [{
     "src": "icons/pwa_icon_128.png",
     "sizes": "128x128",

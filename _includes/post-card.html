@@ -1,0 +1,14 @@
+{% assign card_post = include.post %}
+<article class="post-card">
+    <a class="post-card__link" href="{{ card_post.url | relative_url }}">
+        <div class="post-card__meta">
+            <time datetime="{{ card_post.date | date: '%Y-%m-%d' }}">{{ card_post.date | date: '%Y.%m.%d' }}</time>
+            {% if card_post.tags and card_post.tags != empty %}
+            <span>{{ card_post.tags | first }}</span>
+            {% endif %}
+        </div>
+        <h3>{{ card_post.title }}</h3>
+        {% if card_post.subtitle %}<p>{{ card_post.subtitle }}</p>{% else %}<p>{{ card_post.content | strip_html | truncate: 120 }}</p>{% endif %}
+        <span class="post-card__more">阅读文章 <span aria-hidden="true">↗</span></span>
+    </a>
+</article>

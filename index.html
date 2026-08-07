@@ -1,45 +1,37 @@
 ---
-layout: page
-description: "学无止境，便无止进."
+layout: default
+title: 首页
+description: "记录网络安全、系统工具与真实排障过程。"
 ---
-
-
-
-
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">
-            {{ post.title }}
-        </h2>
-        {% if post.subtitle %}
-        <h3 class="post-subtitle">
-            {{ post.subtitle }}
-        </h3>
-        {% endif %}
-        <div class="post-content-preview">
-            {{ post.content | strip_html | truncate:200 }}
+<section class="home-hero">
+    <div class="container home-hero__grid">
+        <div class="home-hero__copy">
+            <p class="eyebrow"><span class="eyebrow__dot"></span> Field notes / 2026</p>
+            <h1>把踩过的坑，整理成下一次可复用的路径。</h1>
+            <p class="home-hero__lede">这里是白泽的安全手记，记录渗透测试、系统工具、命令速查和真实排障过程。</p>
+            <div class="home-hero__actions">
+                <button class="button button--primary" type="button" data-search-open>开始搜索 <span aria-hidden="true">⌘K</span></button>
+                <a class="button button--ghost" href="{{ '/about/' | relative_url }}">了解这份手记 <span aria-hidden="true">↗</span></a>
+            </div>
         </div>
-    </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
-</div>
-<hr>
-{% endfor %}
+        <div class="home-hero__signal" aria-label="知识库概览">
+            <div class="signal-card signal-card--large"><span>01</span><strong>安全研究</strong><small>Web / 靶场 / 方法</small></div>
+            <div class="signal-card"><span>02</span><strong>系统与终端</strong><small>Windows / Linux / Shell</small></div>
+            <div class="signal-card"><span>03</span><strong>工具与环境</strong><small>Git / Docker / 数据库</small></div>
+        </div>
+    </div>
+</section>
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
-{% endif %}
+<section class="container section-block">
+    <div class="section-heading"><div><p class="eyebrow">Explore the map</p><h2>从问题出发，而不是从日期出发</h2></div><a href="{{ '/tags/' | relative_url }}">查看全部专题 ↗</a></div>
+    <div class="topic-grid">
+        <a class="topic-card topic-card--cyan" href="{{ '/tags/' | relative_url }}#安全"><span class="topic-card__index">A / 01</span><strong>Web 安全</strong><p>从漏洞原理到靶场验证，保留可复用的思路。</p><span>安全 · XSS · 注入</span></a>
+        <a class="topic-card topic-card--amber" href="{{ '/tags/' | relative_url }}#终端"><span class="topic-card__index">B / 02</span><strong>系统与终端</strong><p>把常用命令、环境问题和排障路径整理清楚。</p><span>Windows · Linux · Shell</span></a>
+        <a class="topic-card topic-card--violet" href="{{ '/tags/' | relative_url }}#命令"><span class="topic-card__index">C / 03</span><strong>工具与环境</strong><p>让 Git、Docker、数据库和测试工具真正服务于工作流。</p><span>Git · Docker · MySQL</span></a>
+    </div>
+</section>
+
+<section class="container section-block section-block--latest">
+    <div class="section-heading"><div><p class="eyebrow">Latest notes</p><h2>最近更新</h2></div><span class="section-heading__count">{{ site.posts.size }} 篇手记</span></div>
+    <div class="post-grid">{% for post in site.posts limit: 6 %}{% include post-card.html post=post %}{% endfor %}</div>
+</section>
