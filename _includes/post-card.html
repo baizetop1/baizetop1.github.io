@@ -3,12 +3,10 @@
     <a class="post-card__link" href="{{ card_post.url | relative_url }}">
         <div class="post-card__meta">
             <time datetime="{{ card_post.date | date: '%Y-%m-%d' }}">{{ card_post.date | date: '%Y.%m.%d' }}</time>
-            {% if card_post.tags and card_post.tags != empty %}
-            <span>{{ card_post.tags | first }}</span>
-            {% endif %}
+            <span>{{ card_post.category | default: '知识' }}</span>
         </div>
         <h3>{{ card_post.title }}</h3>
         {% if card_post.subtitle %}<p>{{ card_post.subtitle }}</p>{% else %}<p>{{ card_post.content | strip_html | truncate: 120 }}</p>{% endif %}
-        <span class="post-card__more">阅读文章 <span aria-hidden="true">↗</span></span>
+        <div class="post-card__footer"><span>{% if card_post.status == 'archived' %}历史资料{% else %}待复核{% endif %} · {{ card_post.difficulty | default: '基础' }}</span><span class="post-card__more">阅读文章 <span aria-hidden="true">↗</span></span></div>
     </a>
 </article>

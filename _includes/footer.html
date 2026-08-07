@@ -36,7 +36,9 @@
         "subtitle": {{ post.subtitle | default: '' | jsonify }},
         "url": {{ post.url | relative_url | jsonify }},
         "excerpt": {{ post.content | strip_html | truncate: 180 | jsonify }},
-        "tags": {{ post.tags | default: empty | jsonify }}
+        "tags": {{ post.tags | default: empty | jsonify }},
+        "category": {{ post.category | default: '知识' | jsonify }},
+        "status": {{ post.status | default: 'review' | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
 ]

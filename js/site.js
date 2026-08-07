@@ -59,7 +59,8 @@
         }).slice(0, 8) : searchIndex.slice(0, 5);
         if (!matches.length) { results.innerHTML = '<div class="search-empty">没有找到匹配内容，试试另一个关键词。</div>'; return; }
         results.innerHTML = matches.map(function (post) {
-            return '<a class="search-result" href="' + escapeHtml(post.url) + '"><strong>' + escapeHtml(post.title) + '</strong><p>' + escapeHtml(post.subtitle || post.excerpt) + '</p><small>' + escapeHtml((post.tags || []).join(' · ')) + '</small></a>';
+            var status = post.status === 'archived' ? '历史资料' : '待复核';
+            return '<a class="search-result" href="' + escapeHtml(post.url) + '"><strong>' + escapeHtml(post.title) + '</strong><p>' + escapeHtml(post.subtitle || post.excerpt) + '</p><small>' + escapeHtml(post.category || '知识') + ' · ' + escapeHtml(status) + ' · ' + escapeHtml((post.tags || []).join(' · ')) + '</small></a>';
         }).join('');
     }
 
@@ -82,5 +83,36 @@
             if (heading.tagName.toLowerCase() === 'h3') link.className = 'toc-h3';
             toc.appendChild(link);
         });
+    }
+
+    document.querySelectorAll('.post-container pre').forEach(function (block) {
+        block.classList.add('has-copy');
+        var copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'code-copy';
+        copyButton.textContent = '复制';
+        copyButton.addEventListener('click', function () {
+            var code = block.querySelector('code');
+            var text = code ? code.textContent : block.textContent;
+            if (!navigator.clipboard) return;
+            navigator.clipboard.writeText(text).then(function () {
+                copyButton.textContent = '已复制';
+                window.setTimeout(function () { copyButton.textContent = '复制'; }, 1400);
+            }).catch(function () { copyButton.textContent = '复制失败'; });
+        });
+        block.appendChild(copyButton);
+    });
+
+    var progress = document.querySelector('[data-reading-progress]');
+    if (progress && article) {
+        var updateProgress = function () {
+            var start = article.getBoundingClientRect().top + window.scrollY - 110;
+            var total = Math.max(article.scrollHeight - window.innerHeight, 1);
+            var percent = Math.min(100, Math.max(0, ((window.scrollY - start) / total) * 100));
+            progress.style.width = percent + '%';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress);
+        updateProgress();
     }
 }());

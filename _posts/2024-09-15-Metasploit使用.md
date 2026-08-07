@@ -6,6 +6,9 @@ date:       2024-09-15
 author:     白泽
 header-img: img/post-bg-2024an.jpg
 catalog: true
+category: 安全
+difficulty: 进阶
+status: review
 tags:
     - kali
     - 终端

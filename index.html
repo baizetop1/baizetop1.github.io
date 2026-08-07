@@ -32,6 +32,6 @@ description: "记录网络安全、系统工具与真实排障过程。"
 </section>
 
 <section class="container section-block section-block--latest">
-    <div class="section-heading"><div><p class="eyebrow">Latest notes</p><h2>最近更新</h2></div><span class="section-heading__count">{{ site.posts.size }} 篇手记</span></div>
+    <div class="section-heading"><div><p class="eyebrow">Latest notes</p><h2>最近更新</h2></div><div class="section-heading__actions"><span class="section-heading__count">{{ site.posts.size }} 篇手记</span><a href="{{ '/archive/' | relative_url }}">查看全部文章 ↗</a></div></div>
     <div class="post-grid">{% for post in site.posts limit: 6 %}{% include post-card.html post=post %}{% endfor %}</div>
 </section>

@@ -4,6 +4,7 @@ layout: default
 {% assign reading_minutes = page.content | number_of_words | divided_by: 200 | ceil %}
 {% if reading_minutes < 1 %}{% assign reading_minutes = 1 %}{% endif %}
 <article class="article-shell">
+    <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
     <header class="article-header container container--narrow">
         <div class="article-header__topline">
             <a href="{{ '/' | relative_url }}">← 返回首页</a>
@@ -15,11 +16,16 @@ layout: default
         </div>
         <h1>{{ page.title }}</h1>
         {% if page.subtitle %}<p class="article-lede">{{ page.subtitle }}</p>{% endif %}
+        {% assign content_status = page.status | default: 'review' %}
+        {% assign last_verified = page['last-verified'] %}
+        {% if content_status == 'verified' %}{% assign status_label = '已验证' %}{% assign status_class = 'status-pill--verified' %}{% elsif content_status == 'archived' %}{% assign status_label = '历史资料' %}{% assign status_class = 'status-pill--archived' %}{% else %}{% assign status_label = '待复核' %}{% assign status_class = 'status-pill--pending' %}{% endif %}
         <div class="article-meta">
-            <span>白泽 · {{ page.date | date: '%Y.%m.%d' }}</span>
+            <span>{{ page.category | default: '知识' }} · {{ page.difficulty | default: '基础' }}</span>
+            <span>{{ page.date | date: '%Y.%m.%d' }}</span>
             <span>{{ reading_minutes }} 分钟阅读</span>
             {% if page.updated %}<span>更新于 {{ page.updated | date: '%Y.%m.%d' }}</span>{% endif %}
-            <span class="status-pill status-pill--pending">待复核</span>
+            {% if last_verified %}<span>验证于 {{ last_verified | date: '%Y.%m.%d' }}</span>{% endif %}
+            <span class="status-pill {{ status_class }}">{{ status_label }}</span>
         </div>
     </header>
 

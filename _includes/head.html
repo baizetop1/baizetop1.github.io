@@ -35,4 +35,19 @@
     <meta property="og:description" content="{{ meta_description | strip_html | escape }}">
     <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
     <meta property="og:site_name" content="{{ site.title }}">
+    {% if page.layout == 'post' %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": {{ page.title | jsonify }},
+        "description": {{ meta_description | strip_html | jsonify }},
+        "datePublished": "{{ page.date | date_to_xmlschema }}",
+        "dateModified": "{{ page.updated | default: page.date | date_to_xmlschema }}",
+        "author": {"@type": "Person", "name": {{ page.author | default: '白泽' | jsonify }}},
+        "mainEntityOfPage": {"@type": "WebPage", "@id": "{{ page.url | absolute_url }}"},
+        "publisher": {"@type": "Person", "name": "白泽"}
+    }
+    </script>
+    {% endif %}
 </head>

@@ -6,6 +6,9 @@ date:       2024-11-05
 author:     白泽
 header-img: img/post-bg-waret.jpg
 catalog: true
+category: 安全
+difficulty: 进阶
+status: review
 tags:
     - MSF
     - 命令
