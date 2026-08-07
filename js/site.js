@@ -16,6 +16,8 @@
     function setTheme(theme) {
         root.dataset.theme = theme;
         try { localStorage.setItem('bz-theme', theme); } catch (error) { /* private mode */ }
+        var themeColor = document.getElementById('theme-color');
+        if (themeColor) themeColor.setAttribute('content', theme === 'dark' ? '#0b1118' : '#f4f3ee');
         if (themeButton) themeButton.querySelector('[data-theme-icon]').textContent = theme === 'dark' ? '☀' : '◐';
     }
 

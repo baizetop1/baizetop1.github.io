@@ -6,7 +6,7 @@
     <meta name="description" content="{{ meta_description | strip_html | escape }}">
     <meta name="keywords" content="{{ site.keyword | escape }}">
     <meta name="author" content="{{ site.title | escape }}">
-    <meta name="theme-color" content="#0b1118">
+    <meta name="theme-color" content="#f4f3ee" id="theme-color">
     <meta name="color-scheme" content="light dark">
 
     <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.SEOTitle }}</title>
@@ -20,6 +20,7 @@
                 var stored = localStorage.getItem('bz-theme');
                 var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                 document.documentElement.dataset.theme = theme;
+                document.getElementById('theme-color').setAttribute('content', theme === 'dark' ? '#0b1118' : '#f4f3ee');
             } catch (error) {
                 document.documentElement.dataset.theme = 'light';
             }
@@ -35,6 +36,8 @@
     <meta property="og:description" content="{{ meta_description | strip_html | escape }}">
     <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
     <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary">
     {% if page.layout == 'post' %}
     <script type="application/ld+json">
     {
