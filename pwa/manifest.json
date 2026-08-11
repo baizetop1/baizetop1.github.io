@@ -1,7 +1,7 @@
 {
-  "name": "BZ 安全手记",
+  "name": "BZ 现场笔记",
   "short_name": "BZ 手记",
-  "description": "网络安全、系统工具与真实排障记录",
+  "description": "安全、系统、工具、项目与生活记录",
   "icons": [{
     "src": "icons/pwa_icon_128.png",
     "sizes": "128x128",
@@ -11,8 +11,8 @@
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#fff",
-  "theme_color": "#000",
+  "background_color": "#f4f3ee",
+  "theme_color": "#007f78",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"

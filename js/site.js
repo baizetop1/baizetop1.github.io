@@ -56,7 +56,7 @@
         if (!results) return;
         var normalized = String(query || '').trim().toLowerCase();
         var matches = normalized ? searchIndex.filter(function (post) {
-            var haystack = [post.title, post.subtitle, post.excerpt, (post.tags || []).join(' ')].join(' ').toLowerCase();
+            var haystack = [post.title, post.subtitle, post.category, post.excerpt, (post.tags || []).join(' ')].join(' ').toLowerCase();
             return haystack.indexOf(normalized) !== -1;
         }).slice(0, 8) : searchIndex.slice(0, 5);
         if (!matches.length) { results.innerHTML = '<div class="search-empty">没有找到匹配内容，试试另一个关键词。</div>'; return; }

@@ -1,6 +1,6 @@
 {
     "name": "bz-knowledge-base",
-    "title": "BZ 安全手记",
+    "title": "BZ 现场笔记",
     "author": "白泽",
     "version": "2.0.0",
     "homepage": "https://baizeone.top",
@@ -11,6 +11,7 @@
     "scripts": {
         "build": "jekyll build",
         "dev": "jekyll serve --livereload",
-        "preview": "python -m http.server 8020 --directory _site"
+        "preview": "python -m http.server 8020 --directory _site",
+        "new": "bash scripts/new-post.sh"
     }
 }

@@ -24,6 +24,7 @@ layout: null
         {% for cat in post.categories %}
         <category>{{ cat | xml_escape }}</category>
         {% endfor %}
+        {% if post.category %}<category>{{ post.category | xml_escape }}</category>{% endif %}
       </item>
     {% endfor %}
   </channel>

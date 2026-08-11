@@ -1,10 +1,10 @@
 <header class="site-header">
     <div class="site-header__inner">
-        <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回 BZ 安全手记首页">
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回 BZ 现场笔记首页">
             <span class="brand__mark" aria-hidden="true">BZ</span>
             <span class="brand__copy">
-                <strong>BZ 安全手记</strong>
-                <small>Security notes / field log</small>
+                <strong>BZ 现场笔记</strong>
+                <small>Security · systems · life log</small>
             </span>
         </a>
         <button class="nav-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">
@@ -12,6 +12,7 @@
         </button>
         <nav id="site-nav" class="site-nav" aria-label="主导航" data-site-nav>
             <a href="{{ '/' | relative_url }}">首页</a>
+            <a href="{{ '/categories/' | relative_url }}">分类</a>
             <a href="{{ '/tags/' | relative_url }}">专题</a>
             <a href="{{ '/archive/' | relative_url }}">文章</a>
             <a href="{{ '/about/' | relative_url }}">关于</a>

@@ -1,0 +1,15 @@
+安全:
+  description: Web 安全、授权测试、靶场与信息收集。
+  tone: cyan
+系统:
+  description: Windows、Linux、Shell 与环境排障。
+  tone: amber
+工具:
+  description: Git、Docker、数据库和日常效率工具。
+  tone: violet
+站务:
+  description: 网站建设、内容维护与发布流程记录。
+  tone: amber
+随笔:
+  description: 项目复盘、阅读观察与暂时没有标签的想法。
+  tone: rose

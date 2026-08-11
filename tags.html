@@ -5,7 +5,7 @@ description: "按问题和工具浏览这份知识库。"
 permalink: /tags/
 ---
 <section class="page-hero">
-    <div class="container container--narrow"><p class="eyebrow">Browse by topic</p><h1>专题索引</h1><p class="page-hero__description">标签是入口，不是终点。找到主题后，回到文章里的上下文和验证过程。</p></div>
+    <div class="container container--narrow"><p class="eyebrow">Browse by topic</p><h1>专题索引</h1><p class="page-hero__description">标签是入口，不是终点。找到主题后，回到文章里的上下文和验证过程。想按大方向浏览，可以先看<a href="{{ '/categories/' | relative_url }}">分类索引</a>。</p></div>
 </section>
 <div class="container container--narrow tags-page">
     <div class="tag-cloud" aria-label="全部标签">{% for tag in site.tags %}<a href="#{{ tag[0] }}">#{{ tag[0] }} <small>{{ tag[1].size }}</small></a>{% endfor %}</div>

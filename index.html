@@ -1,14 +1,14 @@
 ---
 layout: default
 title: 首页
-description: "记录网络安全、系统工具与真实排障过程。"
+description: "记录安全、系统、工具、项目与生活里的真实问题。"
 ---
 <section class="home-hero">
     <div class="container home-hero__grid">
         <div class="home-hero__copy">
             <p class="eyebrow"><span class="eyebrow__dot"></span> Field notes / 2026</p>
-            <h1>把踩过的坑，整理成下一次可复用的路径。</h1>
-            <p class="home-hero__lede">这里是白泽的安全手记，记录渗透测试、系统工具、命令速查和真实排障过程。</p>
+            <h1>把做过的事，整理成下一次可复用的路径。</h1>
+            <p class="home-hero__lede">这里是白泽的现场笔记：不止安全，也记录系统、工具、项目和生活里的真实问题。</p>
             <div class="home-hero__actions">
                 <button class="button button--primary" type="button" data-search-open>开始搜索 <span aria-hidden="true">⌘K</span></button>
                 <a class="button button--ghost" href="{{ '/about/' | relative_url }}">了解这份手记 <span aria-hidden="true">↗</span></a>
@@ -18,6 +18,7 @@ description: "记录网络安全、系统工具与真实排障过程。"
             <div class="signal-card signal-card--large"><span>01</span><strong>安全研究</strong><small>Web / 靶场 / 方法</small></div>
             <div class="signal-card"><span>02</span><strong>系统与终端</strong><small>Windows / Linux / Shell</small></div>
             <div class="signal-card"><span>03</span><strong>工具与环境</strong><small>Git / Docker / 数据库</small></div>
+            <div class="signal-card"><span>04</span><strong>项目与随笔</strong><small>复盘 / 观察 / 生活</small></div>
         </div>
     </div>
 </section>
@@ -25,9 +26,10 @@ description: "记录网络安全、系统工具与真实排障过程。"
 <section class="container section-block">
     <div class="section-heading"><div><p class="eyebrow">Explore the map</p><h2>从问题出发，而不是从日期出发</h2></div><a href="{{ '/tags/' | relative_url }}">查看全部专题 ↗</a></div>
     <div class="topic-grid">
-        <a class="topic-card topic-card--cyan" href="{{ '/tags/' | relative_url }}#安全"><span class="topic-card__index">A / 01</span><strong>Web 安全</strong><p>从漏洞原理到靶场验证，保留可复用的思路。</p><span>安全 · XSS · 注入</span></a>
-        <a class="topic-card topic-card--amber" href="{{ '/tags/' | relative_url }}#终端"><span class="topic-card__index">B / 02</span><strong>系统与终端</strong><p>把常用命令、环境问题和排障路径整理清楚。</p><span>Windows · Linux · Shell</span></a>
-        <a class="topic-card topic-card--violet" href="{{ '/tags/' | relative_url }}#命令"><span class="topic-card__index">C / 03</span><strong>工具与环境</strong><p>让 Git、Docker、数据库和测试工具真正服务于工作流。</p><span>Git · Docker · MySQL</span></a>
+        <a class="topic-card topic-card--cyan" href="{{ '/categories/' | relative_url }}#安全"><span class="topic-card__index">A / 01</span><strong>Web 安全</strong><p>从漏洞原理到靶场验证，保留可复用的思路。</p><span>安全 · XSS · 注入</span></a>
+        <a class="topic-card topic-card--amber" href="{{ '/categories/' | relative_url }}#系统"><span class="topic-card__index">B / 02</span><strong>系统与终端</strong><p>把常用命令、环境问题和排障路径整理清楚。</p><span>Windows · Linux · Shell</span></a>
+        <a class="topic-card topic-card--violet" href="{{ '/categories/' | relative_url }}#工具"><span class="topic-card__index">C / 03</span><strong>工具与环境</strong><p>让 Git、Docker、数据库和测试工具真正服务于工作流。</p><span>Git · Docker · MySQL</span></a>
+        <a class="topic-card topic-card--rose" href="{{ '/categories/' | relative_url }}#随笔"><span class="topic-card__index">D / 04</span><strong>项目与随笔</strong><p>记录项目复盘、阅读观察和暂时没有标签的好奇心。</p><span>项目 · 复盘 · 生活</span></a>
     </div>
 </section>
 

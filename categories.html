@@ -1,0 +1,70 @@
+---
+layout: default
+title: 分类索引
+description: "按大方向浏览安全、系统、工具、项目与随笔。"
+permalink: /categories/
+---
+<section class="page-hero">
+    <div class="container container--narrow"><p class="eyebrow">Browse by category</p><h1>分类索引</h1><p class="page-hero__description">分类决定文章放在哪个抽屉，标签负责描述文章里具体的工具和问题。新增分类不需要改页面代码。</p></div>
+</section>
+<div class="container container--narrow category-page">
+    <div class="category-grid" aria-label="全部分类">
+        {% for category in site.data.categories %}
+            {% assign category_name = category[0] %}
+            {% assign category_meta = category[1] %}
+            {% assign category_posts = site.posts | where: 'category', category_name %}
+            <a class="category-card category-card--{{ category_meta.tone | default: 'cyan' }}" href="#{{ category_name }}">
+                <span class="category-card__count">{{ category_posts.size }} 篇</span>
+                <strong>{{ category_name }}</strong>
+                <p>{{ category_meta.description }}</p>
+                <span class="category-card__more">{% if category_posts.size > 0 %}查看文章 ↗{% else %}等待第一篇{% endif %}</span>
+            </a>
+        {% endfor %}
+        {% assign sorted_categories = site.categories | sort %}
+        {% for category in sorted_categories %}
+            {% assign category_name = category[0] %}
+            {% assign category_meta = site.data.categories[category_name] %}
+            {% unless category_meta %}
+            <a class="category-card category-card--{{ category_meta.tone | default: 'cyan' }}" href="#{{ category_name }}">
+                <span class="category-card__count">{{ category[1].size }} 篇</span>
+                <strong>{{ category_name }}</strong>
+                <p>{{ category_meta.description | default: '记录这一方向的实践、问题与复盘。' }}</p>
+                <span class="category-card__more">查看文章 ↗</span>
+            </a>
+            {% endunless %}
+        {% endfor %}
+    </div>
+
+    <div class="category-sections">
+        {% for category in site.data.categories %}
+            {% assign category_name = category[0] %}
+            {% assign category_posts = site.posts | where: 'category', category_name %}
+            <section class="category-section" id="{{ category_name }}">
+                <div class="category-section__heading"><div><p class="eyebrow">{{ category_posts.size }} 篇现场笔记</p><h2>{{ category_name }}</h2></div><a href="#main-content">回到顶部 ↑</a></div>
+                {% if category_posts.size > 0 %}
+                <div class="archive-list">
+                    {% for post in category_posts %}
+                        <a class="archive-item" href="{{ post.url | relative_url }}"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%Y.%m.%d' }}</time><div><strong>{{ post.title }}</strong><span>{{ post.tags | join: ' · ' | default: '现场笔记' }}</span></div><span class="archive-item__arrow" aria-hidden="true">↗</span></a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="category-empty"><span>还没有文章</span><p>下一篇新记录可以直接使用“{{ category_name }}”作为分类。</p></div>
+                {% endif %}
+            </section>
+        {% endfor %}
+        {% for category in sorted_categories %}
+            {% assign category_name = category[0] %}
+            {% assign category_meta = site.data.categories[category_name] %}
+            {% unless category_meta %}
+            <section class="category-section" id="{{ category_name }}">
+                <div class="category-section__heading"><div><p class="eyebrow">{{ category[1].size }} 篇现场笔记</p><h2>{{ category_name }}</h2></div><a href="#main-content">回到顶部 ↑</a></div>
+                <div class="archive-list">
+                    {% for post in category[1] %}
+                        <a class="archive-item" href="{{ post.url | relative_url }}"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%Y.%m.%d' }}</time><div><strong>{{ post.title }}</strong><span>{{ post.tags | join: ' · ' | default: '现场笔记' }}</span></div><span class="archive-item__arrow" aria-hidden="true">↗</span></a>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endunless %}
+        {% endfor %}
+    </div>
+</div>

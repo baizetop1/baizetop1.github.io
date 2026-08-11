@@ -35,7 +35,11 @@ layout: default
             <nav class="article-toc" data-toc></nav>
         </aside>
         <div class="prose post-container">
+            {% if page.category == '安全' %}
             <div class="article-notice"><strong>安全提示</strong><span>仅在获得授权的环境中复现文中技术。</span></div>
+            {% else %}
+            <div class="article-notice article-notice--general"><strong>记录提示</strong><span>这是一份现场笔记；命令、观点和结论请结合自己的环境再验证。</span></div>
+            {% endif %}
             {{ content }}
             <div class="article-feedback">
                 <span>发现内容过时或有误？</span>

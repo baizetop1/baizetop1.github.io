@@ -1,13 +1,17 @@
 ---
 layout: default
 title: 文章归档
-description: "按时间回看所有安全手记与技术记录。"
+description: "按时间回看所有现场笔记，也可以按分类浏览。"
 permalink: /archive/
 ---
 <section class="page-hero">
-    <div class="container container--narrow"><p class="eyebrow">The archive</p><h1>文章归档</h1><p class="page-hero__description">按时间回看每一次记录，也可以用搜索直接跳到问题。</p></div>
+    <div class="container container--narrow"><p class="eyebrow">The archive</p><h1>文章归档</h1><p class="page-hero__description">按时间回看每一次记录，也可以按<a href="{{ '/categories/' | relative_url }}">分类</a>或用搜索直接跳到问题。</p></div>
 </section>
 <div class="container container--narrow archive-page">
+    <div class="publish-callout">
+        <div><strong>有新想法就记下来</strong><span>新文章默认归到“随笔”，之后再按需要调整分类和标签。</span></div>
+        <a class="button button--ghost" href="{{ site.github_repo }}/new/{{ site.github_branch | default: 'master' }}/_posts" target="_blank" rel="noreferrer">在 GitHub 写一篇 ↗</a>
+    </div>
     {% assign current_year = '' %}
     {% for post in site.posts %}
         {% assign post_year = post.date | date: '%Y' %}
