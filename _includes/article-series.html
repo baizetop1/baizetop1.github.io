@@ -1,0 +1,22 @@
+{% if page.series %}
+{% assign series_posts = site.posts | where: 'series', page.series | sort: 'series_order' %}
+{% if series_posts.size > 0 %}
+<section class="article-series container container--narrow" aria-labelledby="series-title">
+    <div class="article-series__heading">
+        <div><p class="eyebrow">Article series</p><h2 id="series-title">{{ page.series }}</h2></div>
+        <span>{{ series_posts.size }} 篇</span>
+    </div>
+    <ol class="article-series__list">
+        {% for series_post in series_posts %}
+        <li{% if series_post.url == page.url %} class="is-current"{% endif %}>
+            <a href="{{ series_post.url | relative_url }}"{% if series_post.url == page.url %} aria-current="page"{% endif %}>
+                <span>{{ series_post.series_order | default: forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <strong>{{ series_post.title }}</strong>
+                <small>{% if series_post.url == page.url %}正在阅读{% else %}阅读 ↗{% endif %}</small>
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
+</section>
+{% endif %}
+{% endif %}

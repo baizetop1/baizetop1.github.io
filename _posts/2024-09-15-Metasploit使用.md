@@ -7,6 +7,7 @@ author:     白泽
 header-img: img/post-bg-2024an.jpg
 catalog: true
 category: 安全
+format: 工具教程
 difficulty: 进阶
 status: review
 tags:

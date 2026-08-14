@@ -1,0 +1,28 @@
+name: Weekly content audit
+
+on:
+  schedule:
+    - cron: "23 3 * * 1"
+      timezone: "Asia/Shanghai"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Validate content
+        run: npm run check
+      - name: Generate content health report
+        run: node scripts/content-report.mjs --write content-health.md
+      - name: Add report to workflow summary
+        run: cat content-health.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-health
+          path: content-health.md

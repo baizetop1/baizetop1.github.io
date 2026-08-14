@@ -24,6 +24,13 @@
             <input type="search" data-search-input placeholder="搜索文章、标签或命令…" autocomplete="off">
             <kbd>ESC</kbd>
         </label>
+        <div class="search-filters" aria-label="搜索筛选">
+            <label><span>分类</span><select data-search-category><option value="">全部分类</option></select></label>
+            <label><span>形式</span><select data-search-format><option value="">全部形式</option></select></label>
+            <label><span>年份</span><select data-search-year><option value="">全部年份</option></select></label>
+            <button type="button" data-search-clear>清除筛选</button>
+        </div>
+        <div class="search-summary"><span data-search-count></span><small>↑↓ 选择 · Enter 打开</small></div>
         <div class="search-results" data-search-results aria-live="polite"></div>
     </section>
 </div>
@@ -35,10 +42,13 @@
         "title": {{ post.title | jsonify }},
         "subtitle": {{ post.subtitle | default: '' | jsonify }},
         "url": {{ post.url | relative_url | jsonify }},
+        "date": {{ post.date | date: '%Y-%m-%d' | jsonify }},
+        "year": {{ post.date | date: '%Y' | jsonify }},
         "excerpt": {{ post.content | strip_html | truncate: 180 | jsonify }},
         "tags": {{ post.tags | default: empty | jsonify }},
         "category": {{ post.category | default: '知识' | jsonify }},
-        "status": {{ post.status | default: 'review' | jsonify }}
+        "format": {{ post.format | default: '笔记' | jsonify }},
+        "status": {{ post.status | default: 'published' | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
 ]

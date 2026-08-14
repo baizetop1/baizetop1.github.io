@@ -1,6 +1,7 @@
 {% assign card_post = include.post %}
-{% assign card_status = card_post.status | default: 'review' %}
-{% if card_status == 'verified' %}{% assign card_status_label = '已验证' %}{% elsif card_status == 'archived' %}{% assign card_status_label = '历史资料' %}{% else %}{% assign card_status_label = '待复核' %}{% endif %}
+{% assign card_status = card_post.status | default: 'published' %}
+{% if card_status == 'verified' %}{% assign card_status_label = '已验证' %}{% elsif card_status == 'archived' %}{% assign card_status_label = '历史资料' %}{% elsif card_status == 'review' %}{% assign card_status_label = '待复核' %}{% elsif card_status == 'draft' %}{% assign card_status_label = '草稿' %}{% else %}{% assign card_status_label = '已发布' %}{% endif %}
+{% assign card_format = card_post.format | default: '笔记' %}
 <article class="post-card">
     <a class="post-card__link" href="{{ card_post.url | relative_url }}">
         <div class="post-card__meta">
@@ -9,6 +10,6 @@
         </div>
         <h3>{{ card_post.title }}</h3>
         {% if card_post.subtitle %}<p>{{ card_post.subtitle }}</p>{% else %}<p>{{ card_post.content | strip_html | truncate: 120 }}</p>{% endif %}
-        <div class="post-card__footer"><span>{{ card_status_label }} · {{ card_post.difficulty | default: '基础' }}</span><span class="post-card__more">阅读文章 <span aria-hidden="true">↗</span></span></div>
+        <div class="post-card__footer"><span>{{ card_status_label }} · {% if card_post.category == '安全' and card_post.difficulty %}{{ card_post.difficulty }}{% else %}{{ card_format }}{% endif %}</span><span class="post-card__more">阅读文章 <span aria-hidden="true">↗</span></span></div>
     </a>
 </article>

@@ -3,6 +3,7 @@
     "title": "BZ 现场笔记",
     "author": "白泽",
     "version": "2.0.0",
+    "private": true,
     "homepage": "https://baizeone.top",
     "repository": {
         "type": "git",
@@ -11,7 +12,16 @@
     "scripts": {
         "build": "jekyll build",
         "dev": "jekyll serve --livereload",
+        "dev:drafts": "jekyll serve --livereload --drafts",
         "preview": "python -m http.server 8020 --directory _site",
-        "new": "bash scripts/new-post.sh"
+        "new": "node scripts/new-post.mjs",
+        "draft:publish": "node scripts/publish-post.mjs",
+        "check:content": "node scripts/check-content.mjs",
+        "check": "node --check js/site.js && node scripts/check-content.mjs",
+        "report:content": "node scripts/content-report.mjs",
+        "doctor": "node scripts/repo-doctor.mjs"
+    },
+    "engines": {
+        "node": ">=18"
     }
 }

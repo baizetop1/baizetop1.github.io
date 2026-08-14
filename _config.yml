@@ -54,8 +54,18 @@ defaults:
       author: 白泽
       catalog: true
       category: 随笔
-      difficulty: 基础
-      status: review
+      format: 笔记
+      status: published
+  - scope:
+      path: ""
+      type: drafts
+    values:
+      layout: post
+      author: 白泽
+      catalog: true
+      category: 随笔
+      format: 笔记
+      status: draft
 
 
 

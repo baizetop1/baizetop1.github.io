@@ -9,8 +9,8 @@ permalink: /archive/
 </section>
 <div class="container container--narrow archive-page">
     <div class="publish-callout">
-        <div><strong>有新想法就记下来</strong><span>新文章默认归到“随笔”，之后再按需要调整分类和标签。</span></div>
-        <a class="button button--ghost" href="{{ site.github_repo }}/new/{{ site.github_branch | default: 'master' }}/_posts" target="_blank" rel="noreferrer">在 GitHub 写一篇 ↗</a>
+        <div><strong>有新想法就先存成草稿</strong><span>本地运行 npm run new，写完再转为正式文章；也可以直接使用 GitHub 网页编辑器。</span></div>
+        <a class="button button--ghost" href="{{ site.github_repo }}/new/{{ site.github_branch | default: 'master' }}/_drafts" target="_blank" rel="noreferrer">在 GitHub 写草稿 ↗</a>
     </div>
     {% assign current_year = '' %}
     {% for post in site.posts %}

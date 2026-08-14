@@ -3,6 +3,7 @@ layout: default
 ---
 {% assign reading_minutes = page.content | number_of_words | divided_by: 200 | ceil %}
 {% if reading_minutes < 1 %}{% assign reading_minutes = 1 %}{% endif %}
+{% assign article_image = page.image | default: page.header-img %}
 <article class="article-shell">
     <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
     <header class="article-header container container--narrow">
@@ -16,11 +17,12 @@ layout: default
         </div>
         <h1>{{ page.title }}</h1>
         {% if page.subtitle %}<p class="article-lede">{{ page.subtitle }}</p>{% endif %}
-        {% assign content_status = page.status | default: 'review' %}
+        {% assign content_status = page.status | default: 'published' %}
         {% assign last_verified = page['last-verified'] %}
-        {% if content_status == 'verified' %}{% assign status_label = '已验证' %}{% assign status_class = 'status-pill--verified' %}{% elsif content_status == 'archived' %}{% assign status_label = '历史资料' %}{% assign status_class = 'status-pill--archived' %}{% else %}{% assign status_label = '待复核' %}{% assign status_class = 'status-pill--pending' %}{% endif %}
+        {% if content_status == 'verified' %}{% assign status_label = '已验证' %}{% assign status_class = 'status-pill--verified' %}{% elsif content_status == 'archived' %}{% assign status_label = '历史资料' %}{% assign status_class = 'status-pill--archived' %}{% elsif content_status == 'review' %}{% assign status_label = '待复核' %}{% assign status_class = 'status-pill--pending' %}{% elsif content_status == 'draft' %}{% assign status_label = '草稿预览' %}{% assign status_class = 'status-pill--draft' %}{% else %}{% assign status_label = '已发布' %}{% assign status_class = 'status-pill--published' %}{% endif %}
         <div class="article-meta">
-            <span>{{ page.category | default: '知识' }} · {{ page.difficulty | default: '基础' }}</span>
+            <span>{{ page.category | default: '知识' }} · {{ page.format | default: '笔记' }}</span>
+            {% if page.category == '安全' and page.difficulty %}<span>难度 {{ page.difficulty }}</span>{% endif %}
             <span>{{ page.date | date: '%Y.%m.%d' }}</span>
             <span>{{ reading_minutes }} 分钟阅读</span>
             {% if page.updated %}<span>更新于 {{ page.updated | date: '%Y.%m.%d' }}</span>{% endif %}
@@ -28,6 +30,13 @@ layout: default
             <span class="status-pill {{ status_class }}">{{ status_label }}</span>
         </div>
     </header>
+
+    {% if article_image %}
+    <figure class="article-cover container container--narrow">
+        <img src="{{ article_image | relative_url }}" alt="{{ page.image_alt | default: page.title | escape }}" fetchpriority="high">
+        {% if page.image_caption %}<figcaption>{{ page.image_caption }}</figcaption>{% endif %}
+    </figure>
+    {% endif %}
 
     <div class="article-layout container">
         <aside class="article-aside" aria-label="文章目录">
@@ -47,6 +56,9 @@ layout: default
             </div>
         </div>
     </div>
+
+    {% include article-series.html %}
+    {% include related-posts.html %}
 
     <nav class="article-nav container container--narrow" aria-label="文章导航">
         {% if page.previous.url %}<a href="{{ page.previous.url | relative_url }}"><small>上一篇</small><strong>{{ page.previous.title }}</strong></a>{% else %}<span></span>{% endif %}

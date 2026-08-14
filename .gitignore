@@ -37,3 +37,4 @@ _site
 # Local repository copies must never be committed into the site.
 /baizetop1-masterbaizetop1.github.io-github/
 node_modules/
+/content-health.md

@@ -8,5 +8,5 @@ layout: null
   <url><loc>{{ '/categories/' | absolute_url }}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>{{ '/archive/' | absolute_url }}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>{{ '/about/' | absolute_url }}</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  {% for post in site.posts %}<url><loc>{{ post.url | absolute_url }}</loc><lastmod>{{ post.date | date_to_xmlschema }}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>{% endfor %}
+  {% for post in site.posts %}<url><loc>{{ post.url | absolute_url }}</loc><lastmod>{{ post.updated | default: post.date | date_to_xmlschema }}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>{% endfor %}
 </urlset>
