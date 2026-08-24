@@ -10,14 +10,18 @@
         "url": "https://github.com/baizetop1/baizetop1.github.io"
     },
     "scripts": {
-        "build": "jekyll build",
-        "dev": "jekyll serve --livereload",
-        "dev:drafts": "jekyll serve --livereload --drafts",
+        "build": "node scripts/build-site.mjs",
+        "build:text-index": "node scripts/build-text-index.mjs",
+        "dev": "node scripts/build-site.mjs serve --livereload",
+        "dev:drafts": "node scripts/build-site.mjs serve --livereload --drafts",
+        "materialize:wiki": "node scripts/materialize-wiki-links.mjs",
         "preview": "python -m http.server 8020 --directory _site",
         "new": "node scripts/new-post.mjs",
         "draft:publish": "node scripts/publish-post.mjs",
         "check:content": "node scripts/check-content.mjs",
-        "check": "node --check js/site.js && node scripts/check-content.mjs",
+        "check": "node --check js/site.js && node scripts/check-content.mjs && npm run test:text-index && npm run check:text-index",
+        "check:text-index": "node scripts/build-text-index.mjs --check",
+        "test:text-index": "node --test scripts/build-text-index.test.mjs",
         "report:content": "node scripts/content-report.mjs",
         "doctor": "node scripts/repo-doctor.mjs"
     },

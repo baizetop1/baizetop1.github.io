@@ -12,6 +12,9 @@ slug: english-slug
 permalink: /p/english-slug/
 tags:
     - 记录
+# related 使用目标文章的 slug；不要填写标题。
+# related:
+#     - another-post-slug
 # series: 系列名称
 # series_order: 1
 # image: /img/posts/english-slug/cover.jpg
@@ -24,3 +27,5 @@ tags:
 ## 过程记录
 
 把命令、截图、思路和踩坑写在这里。
+
+<!-- Wiki Link：[[target-slug]] 或 [[target-slug|显示文本]] -->

@@ -1,8 +1,52 @@
+{% assign page_node_id = 'post:' | append: page.slug %}
+{% assign network_entry = site.data.text_network.posts[page_node_id] %}
+{% if network_entry %}
+{% assign network_connection_count = network_entry.related.size | plus: network_entry.backlinks.size %}
+{% if network_connection_count > 0 %}
+<section class="text-relations container" aria-labelledby="text-relations-title">
+    <div class="section-heading">
+        <div><p class="eyebrow">Text network</p><h2 id="text-relations-title">文章关系</h2></div>
+        <span>{{ network_connection_count }} 条显式连接</span>
+    </div>
+    <div class="text-relations__grid">
+        {% if network_entry.related.size > 0 %}
+        <section class="text-relation-group" aria-labelledby="related-content-title">
+            <div class="text-relation-group__heading"><span>→</span><h3 id="related-content-title">相关内容</h3></div>
+            <div class="text-relation-list">
+                {% for relation in network_entry.related %}
+                <a href="{{ relation.url }}">
+                    <small>{{ relation.category | default: '文章' }}</small>
+                    <strong>{{ relation.title }}</strong>
+                    {% if relation.summary %}<p>{{ relation.summary }}</p>{% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+        {% if network_entry.backlinks.size > 0 %}
+        <section class="text-relation-group" aria-labelledby="backlinks-title">
+            <div class="text-relation-group__heading"><span>←</span><h3 id="backlinks-title">提到本文</h3></div>
+            <div class="text-relation-list">
+                {% for relation in network_entry.backlinks %}
+                <a href="{{ relation.url }}">
+                    <small>{{ relation.category | default: '文章' }}</small>
+                    <strong>{{ relation.title }}</strong>
+                    {% if relation.summary %}<p>{{ relation.summary }}</p>{% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+{% endif %}
+
 {% assign related_source = site.categories[page.category] %}
 {% if related_source and related_source.size > 1 %}
-<section class="related-posts container" aria-labelledby="related-title">
+<section class="related-posts container" aria-labelledby="category-related-title">
     <div class="section-heading">
-        <div><p class="eyebrow">Continue exploring</p><h2 id="related-title">同分类继续阅读</h2></div>
+        <div><p class="eyebrow">Continue exploring</p><h2 id="category-related-title">同分类继续阅读</h2></div>
         <a href="{{ '/categories/' | relative_url }}#{{ page.category }}">查看“{{ page.category }}”分类 ↗</a>
     </div>
     <div class="post-grid post-grid--related">

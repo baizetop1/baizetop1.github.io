@@ -109,6 +109,9 @@ slug: ${yamlString(slug)}
 permalink: /p/${slug}/
 tags:
 ${tagLines}
+# 相关文章使用目标文章的 slug；取消注释后填写。
+# related:
+#     - another-post-slug
 # 系列文章可取消下面两行注释。
 # series: "系列名称"
 # series_order: 1
@@ -123,6 +126,8 @@ ${tagLines}
 ## 过程记录
 
 <!-- 命令、截图、思路和踩坑都可以先记下来。 -->
+
+<!-- Wiki Link：[[target-slug]] 或 [[target-slug|显示文本]] -->
 
 <!-- 图片示例：![图片说明](/img/posts/${slug}/example.jpg) -->
 `;
