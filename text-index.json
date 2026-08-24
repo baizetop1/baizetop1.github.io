@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-24T07:10:50.706Z",
+  "generatedAt": "2026-08-24T07:51:48.681Z",
   "nodes": [
     {
       "id": "post:Git指令整理",
@@ -18,6 +18,9 @@
       "related": [
         "post:Git-代码回滚"
       ],
+      "topics": [
+        "topic:github"
+      ],
       "createdAt": "2017-02-15",
       "updatedAt": ""
     },
@@ -34,6 +37,9 @@
         "Git"
       ],
       "related": [],
+      "topics": [
+        "topic:github"
+      ],
       "createdAt": "2017-02-16",
       "updatedAt": ""
     },
@@ -49,6 +55,7 @@
         "Blog"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2017-12-19",
       "updatedAt": ""
     },
@@ -65,6 +72,7 @@
         "安全"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-07-14",
       "updatedAt": ""
     },
@@ -81,6 +89,9 @@
         "终端"
       ],
       "related": [],
+      "topics": [
+        "topic:operating-systems"
+      ],
       "createdAt": "2024-09-11",
       "updatedAt": ""
     },
@@ -98,6 +109,7 @@
         "问题"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-09-12",
       "updatedAt": ""
     },
@@ -115,6 +127,9 @@
         "命令"
       ],
       "related": [],
+      "topics": [
+        "topic:operating-systems"
+      ],
       "createdAt": "2024-09-13",
       "updatedAt": ""
     },
@@ -132,6 +147,7 @@
         "命令"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-09-15",
       "updatedAt": ""
     },
@@ -149,6 +165,7 @@
         "命令"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-09-20",
       "updatedAt": ""
     },
@@ -166,6 +183,9 @@
         "教程"
       ],
       "related": [],
+      "topics": [
+        "topic:web-security"
+      ],
       "createdAt": "2024-09-21",
       "updatedAt": ""
     },
@@ -183,6 +203,9 @@
         "教程"
       ],
       "related": [],
+      "topics": [
+        "topic:web-security"
+      ],
       "createdAt": "2024-10-27",
       "updatedAt": ""
     },
@@ -200,6 +223,7 @@
         "Linux"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-11-05",
       "updatedAt": ""
     },
@@ -217,6 +241,7 @@
         "教程"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2024-11-05",
       "updatedAt": ""
     },
@@ -236,6 +261,7 @@
       "related": [
         "post:shell环境"
       ],
+      "topics": [],
       "createdAt": "2025-01-14",
       "updatedAt": ""
     },
@@ -253,6 +279,7 @@
         "命令"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2025-01-15",
       "updatedAt": ""
     },
@@ -270,8 +297,70 @@
         "教程"
       ],
       "related": [],
+      "topics": [],
       "createdAt": "2025-06-16",
       "updatedAt": ""
+    },
+    {
+      "id": "topic:github",
+      "type": "topic",
+      "title": "GitHub",
+      "slug": "github",
+      "url": "https://baizeone.top/topics/github/",
+      "summary": "围绕 Git、代码托管、协作发布与 GitHub Pages 的长期知识节点。",
+      "category": "知识节点",
+      "format": "Topic",
+      "tags": [
+        "Git",
+        "代码托管",
+        "GitHub Pages"
+      ],
+      "related": [
+        "topic:operating-systems"
+      ],
+      "topics": [],
+      "createdAt": "2026-08-24",
+      "updatedAt": "2026-08-24"
+    },
+    {
+      "id": "topic:operating-systems",
+      "type": "topic",
+      "title": "操作系统",
+      "slug": "operating-systems",
+      "url": "https://baizeone.top/topics/operating-systems/",
+      "summary": "连接 Windows、Linux、Shell、终端环境与系统排障记录。",
+      "category": "知识节点",
+      "format": "Topic",
+      "tags": [
+        "Windows",
+        "Linux",
+        "Shell"
+      ],
+      "related": [],
+      "topics": [],
+      "createdAt": "2026-08-24",
+      "updatedAt": "2026-08-24"
+    },
+    {
+      "id": "topic:web-security",
+      "type": "topic",
+      "title": "Web 安全",
+      "slug": "web-security",
+      "url": "https://baizeone.top/topics/web-security/",
+      "summary": "连接 Web 漏洞原理、授权实验、工具使用与复盘记录。",
+      "category": "知识节点",
+      "format": "Topic",
+      "tags": [
+        "XSS",
+        "SQL 注入",
+        "Web Security"
+      ],
+      "related": [
+        "topic:operating-systems"
+      ],
+      "topics": [],
+      "createdAt": "2026-08-24",
+      "updatedAt": "2026-08-24"
     }
   ],
   "edges": [
@@ -286,9 +375,49 @@
       "type": "related"
     },
     {
+      "from": "topic:github",
+      "to": "topic:operating-systems",
+      "type": "related"
+    },
+    {
+      "from": "topic:web-security",
+      "to": "topic:operating-systems",
+      "type": "related"
+    },
+    {
       "from": "post:shell环境",
       "to": "post:docker命令",
       "type": "wiki"
+    },
+    {
+      "from": "post:Git指令整理",
+      "to": "topic:github",
+      "type": "topic"
+    },
+    {
+      "from": "post:Git-代码回滚",
+      "to": "topic:github",
+      "type": "topic"
+    },
+    {
+      "from": "post:shell环境",
+      "to": "topic:operating-systems",
+      "type": "topic"
+    },
+    {
+      "from": "post:windows命令",
+      "to": "topic:operating-systems",
+      "type": "topic"
+    },
+    {
+      "from": "post:SQL注入",
+      "to": "topic:web-security",
+      "type": "topic"
+    },
+    {
+      "from": "post:xss-labs技巧",
+      "to": "topic:web-security",
+      "type": "topic"
     }
   ]
 }

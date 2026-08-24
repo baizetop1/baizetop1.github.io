@@ -1,0 +1,61 @@
+---
+layout: default
+---
+{% assign topic_node_id = 'topic:' | append: page.slug %}
+{% assign topic_entry = site.data.text_network.topics[topic_node_id] %}
+<article class="topic-detail">
+    <header class="topic-detail__hero">
+        <div class="container container--narrow">
+            <a class="topic-detail__back" href="{{ '/topics/' | relative_url }}">← 全部知识节点</a>
+            <p class="eyebrow">Knowledge node</p>
+            <h1>{{ page.title }}</h1>
+            <p class="topic-detail__lede">{{ page.description }}</p>
+            <div class="topic-detail__meta">
+                <span>{{ topic_entry.articles.size | default: 0 }} 篇相关文章</span>
+                {% if page.updated %}<span>更新于 {{ page.updated | date: '%Y.%m.%d' }}</span>{% endif %}
+                {% if page.aliases %}<span>{{ page.aliases | join: ' · ' }}</span>{% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="container container--narrow topic-detail__body">
+        <section class="prose topic-detail__intro" aria-labelledby="topic-intro-title">
+            <h2 id="topic-intro-title">简介</h2>
+            {{ content }}
+        </section>
+
+        {% if topic_entry.related.size > 0 %}
+        <section class="topic-detail__section" aria-labelledby="related-topics-title">
+            <div class="section-heading"><div><p class="eyebrow">Connected nodes</p><h2 id="related-topics-title">相关 Topic</h2></div></div>
+            <div class="topic-related-grid">
+                {% for relation in topic_entry.related %}
+                <a href="{{ relation.url }}"><small>Topic</small><strong>{{ relation.title }}</strong><p>{{ relation.summary }}</p></a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <div class="topic-detail__columns">
+            <section class="topic-detail__section" aria-labelledby="topic-articles-title">
+                <div class="section-heading"><div><p class="eyebrow">All articles</p><h2 id="topic-articles-title">相关文章</h2></div><span>{{ topic_entry.articles.size | default: 0 }} 篇</span></div>
+                {% if topic_entry.articles.size > 0 %}
+                <div class="archive-list">
+                    {% for article in topic_entry.articles %}
+                    {% assign article_date = article.updatedAt | default: article.createdAt %}
+                    <a class="archive-item" href="{{ article.url }}"><time datetime="{{ article_date }}">{{ article_date | date: '%Y.%m.%d' }}</time><div><strong>{{ article.title }}</strong><span>{{ article.category | default: '文章' }}{% if article.summary %} · {{ article.summary }}{% endif %}</span></div><span class="archive-item__arrow" aria-hidden="true">↗</span></a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="category-empty"><span>等待连接</span><p>还没有文章通过 topics 字段加入这个知识节点。</p></div>
+                {% endif %}
+            </section>
+
+            <aside class="topic-recent" aria-labelledby="topic-recent-title">
+                <p class="eyebrow">Activity</p><h2 id="topic-recent-title">最近更新</h2>
+                {% if topic_entry.recent.size > 0 %}
+                <ol>{% for article in topic_entry.recent %}{% assign recent_date = article.updatedAt | default: article.createdAt %}<li><a href="{{ article.url }}"><strong>{{ article.title }}</strong><time datetime="{{ recent_date }}">{{ recent_date | date: '%Y.%m.%d' }}</time></a></li>{% endfor %}</ol>
+                {% else %}<p>暂无文章更新。</p>{% endif %}
+            </aside>
+        </div>
+    </div>
+</article>

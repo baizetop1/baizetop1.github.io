@@ -21,7 +21,7 @@
         </div>
         <label class="search-input-wrap">
             <span aria-hidden="true">⌕</span>
-            <input type="search" data-search-input placeholder="搜索文章、标签或命令…" autocomplete="off">
+            <input type="search" data-search-input placeholder="搜索文章、Topic、标签或命令…" autocomplete="off">
             <kbd>ESC</kbd>
         </label>
         <div class="search-filters" aria-label="搜索筛选">
@@ -49,6 +49,21 @@
         "category": {{ post.category | default: '知识' | jsonify }},
         "format": {{ post.format | default: '笔记' | jsonify }},
         "status": {{ post.status | default: 'published' | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    {% if site.posts.size > 0 and site.topics.size > 0 %},{% endif %}
+    {% for topic in site.topics %}
+    {
+        "title": {{ topic.title | jsonify }},
+        "subtitle": {{ topic.description | default: '' | jsonify }},
+        "url": {{ topic.url | relative_url | jsonify }},
+        "date": {{ topic.updated | default: topic.created | date: '%Y-%m-%d' | jsonify }},
+        "year": {{ topic.updated | default: topic.created | date: '%Y' | jsonify }},
+        "excerpt": {{ topic.content | strip_html | truncate: 180 | jsonify }},
+        "tags": {{ topic.aliases | default: empty | jsonify }},
+        "category": "知识节点",
+        "format": "Topic",
+        "status": "published"
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
 ]

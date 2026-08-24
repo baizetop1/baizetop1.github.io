@@ -11,6 +11,7 @@ const seenTitles = new Map();
 const seenPermalinks = new Map();
 const allowedStatuses = new Set(['draft', 'published', 'review', 'verified', 'archived']);
 const legacyFilenames = [];
+const knownTopics = scanTopics();
 
 scanFolder('_posts', true);
 scanFolder('_drafts', false);
@@ -78,6 +79,12 @@ function scanFolder(folderName, publishedFolder) {
         requireText(data, 'status', label, '状态');
 
         if (!Array.isArray(data.tags) || !data.tags.length) errors.push(`${label} 至少需要一个标签。`);
+        if (data.topics !== undefined) {
+            if (!Array.isArray(data.topics)) errors.push(`${label} 的 topics 必须是 slug 列表。`);
+            else for (const topic of data.topics) {
+                if (!knownTopics.has(String(topic))) errors.push(`${label} 引用了不存在的 Topic：${topic}`);
+            }
+        }
         if (data.status && !allowedStatuses.has(String(data.status))) {
             errors.push(`${label} 的 status 无效：${data.status}；可用 draft / published / review / verified / archived。`);
         }
@@ -123,6 +130,42 @@ function scanFolder(folderName, publishedFolder) {
             warnings.push(`${label} 仍保留写作模板提示。`);
         }
     }
+}
+
+function scanTopics() {
+    const topics = new Set();
+    const folder = path.join(root, '_topics');
+    if (!fs.existsSync(folder)) return topics;
+    const files = fs.readdirSync(folder).filter((name) => /\.(?:md|markdown)$/i.test(name)).sort();
+    for (const name of files) {
+        const file = path.join(folder, name);
+        const label = relativeDisplay(root, file);
+        const filenameSlug = name.replace(/\.(?:md|markdown)$/i, '');
+        if (!/^[a-z0-9][a-z0-9-]*$/i.test(filenameSlug)) {
+            errors.push(`${label} 的 Topic 文件名必须是英文 slug。`);
+            continue;
+        }
+        let parsed;
+        try {
+            parsed = parseFrontMatter(fs.readFileSync(file, 'utf8'), label);
+        } catch (error) {
+            errors.push(error.message);
+            continue;
+        }
+        const { data, body } = parsed;
+        requireText(data, 'title', label, 'Topic 标题');
+        requireText(data, 'slug', label, 'Topic slug');
+        requireText(data, 'description', label, 'Topic 简介');
+        if (String(data.slug || '') !== filenameSlug) errors.push(`${label} 的 slug 必须与文件名一致：${filenameSlug}`);
+        if (topics.has(filenameSlug)) errors.push(`Topic slug 重复：${filenameSlug}`);
+        topics.add(filenameSlug);
+        for (const field of ['aliases', 'related']) {
+            if (data[field] !== undefined && !Array.isArray(data[field])) errors.push(`${label} 的 ${field} 必须是列表。`);
+        }
+        const plainText = body.replace(/[#>*_`\[\]()!-]/g, '').trim();
+        if (plainText.length < 30) warnings.push(`${label} 的 Topic 简介正文较少。`);
+    }
+    return topics;
 }
 
 function requireText(data, key, label, description) {

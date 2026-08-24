@@ -1,0 +1,19 @@
+---
+layout: default
+title: 知识节点
+description: "由作者手工维护的重要概念入口；普通标签不会自动成为 Topic。"
+permalink: /topics/
+---
+<section class="page-hero">
+    <div class="container container--narrow"><p class="eyebrow">Knowledge nodes</p><h1>知识节点</h1><p class="page-hero__description">Topic 是长期维护的重要概念，不是标签的另一种显示方式。文章只有显式填写 <code>topics</code> 才会进入对应节点。</p></div>
+</section>
+<div class="container container--narrow topic-index-page">
+    {% assign sorted_topics = site.topics | sort: 'title' %}
+    <div class="topic-grid" aria-label="全部知识节点">
+        {% for topic in sorted_topics %}
+        {% assign topic_node_id = 'topic:' | append: topic.slug %}
+        {% assign topic_entry = site.data.text_network.topics[topic_node_id] %}
+        <a class="topic-card topic-card--{{ topic.tone | default: 'cyan' }}" href="{{ topic.url | relative_url }}"><span class="topic-card__index">{{ topic_entry.articles.size | default: 0 }} ARTICLES</span><strong>{{ topic.title }}</strong><p>{{ topic.description }}</p><span>{{ topic.aliases | join: ' · ' | default: '正式知识节点' }}</span></a>
+        {% endfor %}
+    </div>
+</div>

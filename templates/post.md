@@ -12,6 +12,9 @@ slug: english-slug
 permalink: /p/english-slug/
 tags:
     - 记录
+# Topic 是手工维护的正式知识节点；不要把全部 tags 复制到这里。
+# topics:
+#     - knowledge-management
 # related 使用目标文章的 slug；不要填写标题。
 # related:
 #     - another-post-slug

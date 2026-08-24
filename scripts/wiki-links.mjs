@@ -42,7 +42,7 @@ export function createWikiResolver(nodes) {
 }
 
 export function materializeWikiLinks(root, index) {
-    const resolver = createWikiResolver(index.nodes);
+    const resolver = createWikiResolver(index.nodes.filter((node) => node.type === 'post'));
     const postsFolder = path.join(root, '_posts');
     const changed = [];
     for (const name of fs.readdirSync(postsFolder).filter((item) => /\.(?:md|markdown)$/i.test(item)).sort()) {

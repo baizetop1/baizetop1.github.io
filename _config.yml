@@ -38,6 +38,11 @@ paginate: 10
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","scripts","templates","docs","PUBLISHING.md"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
+collections:
+  topics:
+    output: true
+    permalink: /topics/:name/
+
 
 
 # Gems
@@ -66,6 +71,11 @@ defaults:
       category: 随笔
       format: 笔记
       status: draft
+  - scope:
+      path: ""
+      type: topics
+    values:
+      layout: topic
 
 
 

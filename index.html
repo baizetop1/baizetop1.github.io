@@ -24,12 +24,9 @@ description: "记录安全、系统、工具、项目与生活里的真实问题
 </section>
 
 <section class="container section-block">
-    <div class="section-heading"><div><p class="eyebrow">Explore the map</p><h2>从问题出发，而不是从日期出发</h2></div><a href="{{ '/tags/' | relative_url }}">查看全部专题 ↗</a></div>
+    <div class="section-heading"><div><p class="eyebrow">Explore the network</p><h2>从知识节点进入，而不是从日期出发</h2></div><a href="{{ '/topics/' | relative_url }}">查看全部知识节点 ↗</a></div>
     <div class="topic-grid">
-        <a class="topic-card topic-card--cyan" href="{{ '/categories/' | relative_url }}#安全"><span class="topic-card__index">A / 01</span><strong>Web 安全</strong><p>从漏洞原理到靶场验证，保留可复用的思路。</p><span>安全 · XSS · 注入</span></a>
-        <a class="topic-card topic-card--amber" href="{{ '/categories/' | relative_url }}#系统"><span class="topic-card__index">B / 02</span><strong>系统与终端</strong><p>把常用命令、环境问题和排障路径整理清楚。</p><span>Windows · Linux · Shell</span></a>
-        <a class="topic-card topic-card--violet" href="{{ '/categories/' | relative_url }}#工具"><span class="topic-card__index">C / 03</span><strong>工具与环境</strong><p>让 Git、Docker、数据库和测试工具真正服务于工作流。</p><span>Git · Docker · MySQL</span></a>
-        <a class="topic-card topic-card--rose" href="{{ '/categories/' | relative_url }}#随笔"><span class="topic-card__index">D / 04</span><strong>项目与随笔</strong><p>记录项目复盘、阅读观察和暂时没有标签的好奇心。</p><span>项目 · 复盘 · 生活</span></a>
+        {% for topic in site.topics limit: 3 %}{% assign topic_node_id = 'topic:' | append: topic.slug %}{% assign topic_entry = site.data.text_network.topics[topic_node_id] %}<a class="topic-card topic-card--{{ topic.tone | default: 'cyan' }}" href="{{ topic.url | relative_url }}"><span class="topic-card__index">{{ topic_entry.articles.size | default: 0 }} ARTICLES</span><strong>{{ topic.title }}</strong><p>{{ topic.description }}</p><span>{{ topic.aliases | join: ' · ' | default: '正式知识节点' }}</span></a>{% endfor %}
     </div>
 </section>
 

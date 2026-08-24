@@ -10,8 +10,13 @@ function createSite() {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'baize-text-index-'));
     fs.mkdirSync(path.join(root, '_posts'));
     fs.mkdirSync(path.join(root, '_drafts'));
+    fs.mkdirSync(path.join(root, '_topics'));
     fs.writeFileSync(path.join(root, '_config.yml'), 'url: "https://baizeone.top"\n', 'utf8');
     return root;
+}
+
+function writeTopic(root, name, frontMatter, body = '这是一个由作者手工维护的正式知识节点。') {
+    fs.writeFileSync(path.join(root, '_topics', name), `---\n${frontMatter}\n---\n${body}\n`, 'utf8');
 }
 
 function writePost(root, folder, name, frontMatter, body = '正文中的私密测试标记不应进入索引。') {
@@ -60,6 +65,7 @@ test('indexes only published metadata and uses the stable short URL', (context) 
         format: '笔记',
         tags: ['知识管理', 'Web'],
         related: ['post:digital-garden', 'site:nav'],
+        topics: [],
         createdAt: '2026-08-24',
         updatedAt: '2026-08-25',
         slug: 'text-network'
@@ -71,6 +77,9 @@ test('indexes only published metadata and uses the stable short URL', (context) 
         url: 'https://baizeone.top/p/text-network/',
         summary: '统一发现公开内容',
         category: '项目',
+        type: 'post',
+        createdAt: '2026-08-24',
+        updatedAt: '2026-08-25',
         types: ['related']
     }]);
     assert.doesNotMatch(JSON.stringify(index), /私密测试标记|未公开草稿/);
@@ -88,6 +97,7 @@ test('keeps legacy posts indexable when optional metadata is missing', (context)
     assert.equal(node.slug, undefined);
     assert.deepEqual(node.tags, []);
     assert.deepEqual(node.related, []);
+    assert.deepEqual(node.topics, []);
 });
 
 test('accepts inline lists and rejects duplicate node IDs', (context) => {
@@ -186,4 +196,73 @@ test('scanner supports aliases without treating malformed syntax as links', () =
         { slug: 'one', label: 'one' },
         { slug: 'two', label: '显示文本' }
     ]);
+});
+
+test('creates curated topic nodes, membership edges, and topic page data', (context) => {
+    const root = createSite();
+    context.after(() => fs.rmSync(root, { recursive: true, force: true }));
+    writeTopic(root, 'github.md', [
+        'title: GitHub',
+        'slug: github',
+        'description: Git 与 GitHub 工作流',
+        'aliases: [Git, 代码托管]',
+        'related: [operating-systems]',
+        'updated: 2026-08-24'
+    ].join('\n'));
+    writeTopic(root, 'operating-systems.md', [
+        'title: 操作系统',
+        'slug: operating-systems',
+        'description: Windows、Linux 与终端环境'
+    ].join('\n'));
+    writePost(root, '_posts', '2026-08-23-explicit.md', [
+        'title: Git 工作流',
+        'slug: git-workflow',
+        'date: 2026-08-23',
+        'tags: [GitHub]',
+        'topics: [github]'
+    ].join('\n'));
+    writePost(root, '_posts', '2026-08-24-tag-only.md', [
+        'title: 只有普通标签',
+        'slug: tag-only',
+        'date: 2026-08-24',
+        'tags: [操作系统]'
+    ].join('\n'));
+
+    const index = buildTextIndex(root, { generatedAt: '2026-08-24T00:00:00.000Z' });
+    assert.equal(index.nodes.filter((node) => node.type === 'topic').length, 2);
+    assert.deepEqual(index.nodes.find((node) => node.id === 'topic:github'), {
+        id: 'topic:github',
+        type: 'topic',
+        title: 'GitHub',
+        slug: 'github',
+        url: 'https://baizeone.top/topics/github/',
+        summary: 'Git 与 GitHub 工作流',
+        category: '知识节点',
+        format: 'Topic',
+        tags: ['Git', '代码托管'],
+        related: ['topic:operating-systems'],
+        topics: [],
+        createdAt: '',
+        updatedAt: '2026-08-24'
+    });
+    assert.deepEqual(index.edges, [
+        { from: 'topic:github', to: 'topic:operating-systems', type: 'related' },
+        { from: 'post:git-workflow', to: 'topic:github', type: 'topic' }
+    ]);
+    const data = buildTextNetworkData(index);
+    assert.equal(data.topics['topic:github'].articles[0].title, 'Git 工作流');
+    assert.equal(data.topics['topic:github'].recent[0].createdAt, '2026-08-23');
+    assert.equal(data.topics['topic:github'].related[0].title, '操作系统');
+    assert.equal(data.topics['topic:operating-systems'].articles.length, 0, '普通 tag 不应自动升级为 Topic 关系');
+});
+
+test('rejects missing topic references and invalid topic definitions', (context) => {
+    const root = createSite();
+    context.after(() => fs.rmSync(root, { recursive: true, force: true }));
+    writePost(root, '_posts', '2026-08-24-source.md', 'title: Source\nslug: source\ntopics: [missing]');
+    assert.throws(() => buildTextIndex(root), /topics 引用了不存在的 Topic：missing/);
+
+    fs.rmSync(path.join(root, '_posts', '2026-08-24-source.md'));
+    writeTopic(root, 'bad-name.md', 'title: Bad\nslug: different\ndescription: Invalid');
+    assert.throws(() => buildTextIndex(root), /slug 必须与文件名一致/);
 });

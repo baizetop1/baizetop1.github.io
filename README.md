@@ -88,7 +88,7 @@ GitHub Actions 会先检查文章字段和本地图片，再自动构建发布�
 
 ## 公开文本索引
 
-每次生产构建都会从 `_posts/` 生成 `/text-index.json`，供 Personal Hub 搜索公开文章；同时生成仅供 Jekyll 页面使用的 `_data/text_network.json`。索引只包含标题、摘要、分类、形式、标签、关联和日期等 Front Matter，不包含 Markdown 正文，也不会扫描 `_drafts/`。
+每次生产构建都会从 `_posts/` 与手工维护的 `_topics/` 生成 `/text-index.json`，供 Personal Hub 搜索公开文章和正式知识节点；同时生成仅供 Jekyll 页面使用的 `_data/text_network.json`。索引只包含标题、摘要、分类、形式、标签、Topic、关联和日期等 Front Matter，不包含 Markdown 正文，也不会扫描 `_drafts/`。
 
 ```bash
 npm run build:text-index
@@ -123,6 +123,21 @@ related:
 
 不存在的 Wiki Link 只输出 `WARNING`，不阻止检查或发布，并在正文中保持原样。围栏代码块、行内反引号和转义写法 `\[[example]]` 不会被识别，适合展示语法示例。Front Matter 的 `related` 仍执行严格校验。
 
+### Topic / Knowledge Node
+
+Topic 是作者手工维护的正式知识节点，源文件位于 `_topics/<slug>.md`，固定输出到 `/topics/<slug>/`。可以复制 `templates/topic.md` 创建新节点。Topic 至少需要英文 `slug`、标题、简介和正文；`related` 只连接其他 Topic。
+
+普通 `tags` 继续作为轻量描述，不会自动创建节点。只有文章显式填写下面的字段才会加入 Topic：
+
+```yaml
+tags:
+  - Git
+topics:
+  - github
+```
+
+构建会生成 `post → topic` 的 `topic` edge。不存在的 Topic 会阻止检查和发布，防止正式知识节点出现悬空关系。Topic 页面自动展示简介、相关文章、相关 Topic 和按文章更新时间排列的最近更新；文章页标题下方也会显示所属知识节点。
+
 索引 schema 版本为 `2`：
 
 ```json
@@ -141,8 +156,20 @@ related:
       "format": "笔记",
       "tags": ["知识管理", "Web"],
       "related": ["post:digital-garden"],
+      "topics": ["topic:knowledge-management"],
       "createdAt": "2026-08-24",
       "updatedAt": "2026-08-25"
+    },
+    {
+      "id": "topic:knowledge-management",
+      "type": "topic",
+      "title": "知识管理",
+      "slug": "knowledge-management",
+      "url": "https://baizeone.top/topics/knowledge-management/",
+      "summary": "组织长期维护的知识节点",
+      "tags": [],
+      "related": [],
+      "topics": []
     }
   ],
   "edges": [
@@ -155,6 +182,11 @@ related:
       "from": "post:digital-garden",
       "to": "post:text-network",
       "type": "wiki"
+    },
+    {
+      "from": "post:text-network",
+      "to": "topic:knowledge-management",
+      "type": "topic"
     }
   ]
 }

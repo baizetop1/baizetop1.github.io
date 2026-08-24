@@ -29,6 +29,15 @@ layout: default
             {% if last_verified %}<span>验证于 {{ last_verified | date: '%Y.%m.%d' }}</span>{% endif %}
             <span class="status-pill {{ status_class }}">{{ status_label }}</span>
         </div>
+        {% if page.topics and page.topics != empty %}
+        <nav class="article-topics" aria-label="文章所属知识节点">
+            <span>KNOWLEDGE NODES</span>
+            {% for topic_slug in page.topics %}
+                {% assign topic_page = site.topics | where: 'slug', topic_slug | first %}
+                {% if topic_page %}<a href="{{ topic_page.url | relative_url }}">{{ topic_page.title }} ↗</a>{% endif %}
+            {% endfor %}
+        </nav>
+        {% endif %}
     </header>
 
     {% if article_image %}
