@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-08-24T07:51:48.681Z",
+  "generatedAt": "2026-08-27T02:43:39.395Z",
   "nodes": [
     {
       "id": "post:Git指令整理",
@@ -300,6 +300,24 @@
       "topics": [],
       "createdAt": "2025-06-16",
       "updatedAt": ""
+    },
+    {
+      "id": "post:note-20260826-172052",
+      "type": "post",
+      "title": "浏览器的导航入口",
+      "url": "https://baizeone.top/p/note-20260826-172052/",
+      "summary": "",
+      "category": "教程",
+      "format": "笔记",
+      "tags": [
+        "教程",
+        "浏览器机制"
+      ],
+      "related": [],
+      "topics": [],
+      "createdAt": "2026-08-27",
+      "updatedAt": "",
+      "slug": "note-20260826-172052"
     },
     {
       "id": "topic:github",
